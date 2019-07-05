@@ -93,3 +93,39 @@ vector<int> solution(vector<int> array, vector<vector<int>> commands) {
 
 ~~~~
 
+----
+
+### vector 초기화
+
+#### vector는 초기화를 할 수가 없어 배열을 만들어 vector 초기화를 진행하였다.
+
+~~~c++
+	int v[]={1,5,2,6,3,7,4};
+	vector <int> array(begin(v),end(v));
+~~~
+
+
+
+### vector copy
+
+~~~c++
+// copy() 를 이용한 복사
+ 
+destVector.resize((int)(sourceVector.size()));
+std::copy( sourceVector.begin(), sourceVector.end(), destVector.begin() );
+std::copy( sourceVector.begin() + 2, sourceVector.begin() + 5, destVector.begin() );
+
+// assign() 을 이용한 복사
+ 
+destVector.clear();
+destVector.assign( sourceVector.begin(), sourceVector.end() ); // 전체 복사
+destVector.assign( sourceVector.begin() + 1, sourceVector.begin() + 4 );
+
+
+출처: https://ogoons.tistory.com/75 [오군의 기술 블로그]
+~~~
+
+<출처>
+
+https://ogoons.tistory.com/75
+
