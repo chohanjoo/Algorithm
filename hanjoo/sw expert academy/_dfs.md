@@ -287,3 +287,89 @@ int main(void)
 }
 ~~~
 
+
+
+### 2468. 안전 영역
+
+~~~c++
+#include <iostream>
+#include <string.h>
+
+using namespace std;
+int graph[100][100] = {
+    0,
+};
+int visited[100][100] = {
+    0,
+};
+int mx = 0;
+int Num = 0;
+int n;
+typedef struct dir
+{
+    int x;
+    int y;
+} DIR;
+
+DIR d[4] = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+
+void dfs(int x, int y, int rain)
+{
+    if (graph[y][x] <= rain)
+        return;
+    visited[y][x] = 1;
+
+    for (int i = 0; i < 4; ++i)
+    {
+        int nx = d[i].x + x;
+        int ny = d[i].y + y;
+
+        if (nx >= 0 && nx < n && ny >= 0 && ny < n)
+        {
+            if (graph[ny][nx] > rain && visited[ny][nx] == 0)
+            {
+                dfs(nx, ny, rain);
+            }
+        }
+    }
+}
+int main()
+{
+    int result = 0;
+
+    cin >> n;
+
+    for (int i = 0; i < n; ++i)
+    {
+        for (int j = 0; j < n; ++j)
+        {
+            cin >> graph[i][j];
+            if (mx < graph[i][j])
+                mx = graph[i][j];
+        }
+    }
+
+    for (int i = 0; i <= mx; ++i)
+    {
+        memset(visited, 0, sizeof(visited));
+        Num = 0;
+        for (int y = 0; y < n; ++y)
+        {
+            for (int x = 0; x < n; ++x)
+            {
+                if (graph[y][x] > i && visited[y][x] == 0)
+                {
+                    dfs(x, y, i);
+                    ++Num;
+                }
+            }
+        }
+        if (result < Num)
+            result = Num;
+    }
+    cout << result << "\n";
+
+    return 0;
+}
+~~~
+
