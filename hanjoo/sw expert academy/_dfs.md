@@ -373,3 +373,100 @@ int main()
 }
 ~~~
 
+
+
+### 2842 . 집배원 한상덕
+
+투포인터 알고리즘과 dfs의 합
+
+~~~c++
+#include <iostream>
+#include <vector>
+#include <cstring>
+#include <cmath>
+#include <set>
+using namespace std;
+
+int n, lo, hi, a[51][51], v[51][51];
+int di[] = {0, 0, 1, -1, 1, 1, -1, -1}, dj[] = {1, -1, 0, 0, 1, -1, 1, -1};
+struct pos
+{
+    int i, j;
+};
+vector<pos> K;
+
+void dfs(int i, int j)
+{
+    if (i < 0 || j < 0 || i >= n || j >= n || v[i][j] || a[i][j] < lo || a[i][j] > hi)
+        return;
+    v[i][j] = 1;
+    for (int d = 0; d < 8; ++d)
+        dfs(i + di[d], j + dj[d]);
+}
+
+bool possible()
+{
+    int cnt = 0;
+    for (int k = 0; k < K.size(); ++k)
+        if (v[K[k].i][K[k].j])
+            ++cnt;
+    return cnt == K.size();
+}
+
+int main()
+{
+    pos P;
+    cin >> n;
+    for (int i = 0; i < n; ++i)
+    {
+        char t[51];
+        cin >> t;
+        for (int j = 0; j < n; ++j)
+        {
+
+            if (t[j] == 'P')
+            {
+                P.i = i;
+                P.j = j;
+            }
+            else if (t[j] == 'K')
+            {
+                pos tmp = {i, j};
+                K.push_back(tmp);
+            }
+        }
+    }
+    set<int> s;
+    for (int i = 0; i < n; ++i)
+        for (int j = 0; j < n; ++j)
+        {
+            cin >> a[i][j];
+            s.insert(a[i][j]);
+        }
+    
+    for(set<int>::iterator ll = s.begin() ;ll != s.end();++ll)
+        cout << *ll << " ";
+    cout << "\n";
+
+    int result = 1e6;
+    set<int>::iterator l = s.begin(), r = s.begin();
+    while (r != s.end())
+    {
+        while (l != s.end())
+        {
+            memset(v, 0, sizeof(v));
+            lo = *l;
+            hi = *r;
+            dfs(P.i, P.j);
+            if (!possible())
+                break;
+
+            result = min(result, *r - *l);
+            ++l;
+        }
+        ++r;
+    }
+    cout << result;
+}
+~~~
+
