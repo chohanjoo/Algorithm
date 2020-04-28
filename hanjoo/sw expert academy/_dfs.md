@@ -379,6 +379,8 @@ int main()
 
 투포인터 알고리즘과 dfs의 합
 
+set은 insert만 해도 자동 정렬된다.
+
 ~~~c++
 #include <iostream>
 #include <vector>
